@@ -85,6 +85,13 @@ const encodes = {
   * @param {string} value
   * @return {Buffer}
   */
+  ipld: (value) => {
+    return new CID(value).toV1().bytes;
+  },
+  /**
+  * @param {string} value
+  * @return {Buffer}
+  */
   ipfs: (value) => {
     return new CID(value).toV1().bytes;
   },
@@ -133,6 +140,13 @@ const decodes = {
   /**
   * @param {Buffer} value 
   */
+  ipld: (value) => {
+    const cid = new CID(value).toV1();
+    return cid.toString(cid.codec === 'libp2p-key' ? 'base36' : 'base32')
+  },
+  /**
+  * @param {Buffer} value 
+  */
   ipfs: (value) => {
     const cid = new CID(value).toV1();
     return cid.toString(cid.codec === 'libp2p-key' ? 'base36' : 'base32')
@@ -176,6 +190,10 @@ const profiles = {
   'swarm-ns': {
     encode: encodes.swarm,
     decode: decodes.hexMultiHash,
+  },
+  'ipld-ns': {
+    encode: encodes.ipld,
+    decode: decodes.ipld,
   },
   'ipfs-ns': {
     encode: encodes.ipfs,

@@ -22,16 +22,19 @@ const skylink = 'CABAB_1Dt0FJsxqsu_J4TodNCbCGvtFf1Uys_3EgzOlTcg'
 const skylink_contentHash = '90b2c60508004007fd43b74149b31aacbbf2784e874d09b086bed15fd54cacff7120cce95372'
 const arweave = 'ys32Pt8uC7TrVxHdOLByOspfPEq2LO63wREHQIM9SJQ'
 const arweave_contentHash = '90b2ca05cacdf63edf2e0bb4eb5711dd38b0723aca5f3c4ab62ceeb7c1110740833d4894'
+const ipld_CIDv1 = 'bafyreiggi4ce7wy7eya4smhdewu4dur6hvtemfh2uhlahzq3ir3ltr6u3i'
+const ipld_contentHash = 'e20101711220c647044fdb1f2601c930e325a9c1d23e3d664614faa1d603e61b4476b9c7d4da'
 describe('content-hash (legacy tests)', () =>
 	{
 		it('should decode a content hash', () => {
 			const actual_0 = contentHash.decode(ipfs_contentHash);
 			const actual_1 = contentHash.decode(swarm_contentHash);
 			let actual_2 = contentHash.decode(onion_contentHash);
-
+			let actual_3 = contentHash.decode(ipld_contentHash)
 			actual_0.should.be.equal(ipfs_CIDv1);
 			actual_1.should.be.equal(swarm);
 			actual_2.should.be.equal(onion);
+			actual_3.should.be.equal(ipld_CIDv1);
 		});
 		it('should encode an ipfs address (CIDv0)', () => {
 			const actual = contentHash.fromIpfs(ipfs_CIDv0);
@@ -58,6 +61,10 @@ describe('content-hash (legacy tests)', () =>
 			actual_1.should.be.equal('swarm-ns');
 			actual_2.should.be.equal('onion');
 		});
+		it('should encode an ipld address (CIDv1)', () => {
+			const actual = contentHash.fromIpld(ipld_CIDv1);
+			actual.should.be.equal(ipld_contentHash);
+		});
 	}
 );
 
@@ -74,6 +81,24 @@ describe('content-hash', () => {
 		it('should decode', () => {
 			const actual = contentHash.decode(swarm_contentHash);
 			actual.should.be.equal(swarm);
+		});
+	});
+	describe('ipld', () => {
+		/*it('should encode CIDv0', () => {
+			const actual = contentHash.encode('ipld-ns', ipld_CIDv0);
+			actual.should.be.equal(ipld_contentHash);
+		});*/
+		it('should encode CIDv1', () => {
+			const actual = contentHash.encode('ipld-ns', ipld_CIDv1);
+			actual.should.be.equal(ipld_contentHash);
+		});
+		it('should getCodec', () => {
+			const actual = contentHash.getCodec(ipld_contentHash);
+			actual.should.be.equal('ipld-ns');
+		});
+		it('should decode to CIDv1', () => {
+			const actual = contentHash.decode(ipld_contentHash);
+			actual.should.be.equal(ipld_CIDv1);
 		});
 	});
 	describe('ipfs', () => {

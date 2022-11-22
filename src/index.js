@@ -54,6 +54,15 @@ module.exports = {
 	},
 
 	/**
+	* Encode an IPLD address into a content hash
+	* @param {string} ipldHash string containing an IPLD address
+	* @return {string} the resulting content hash
+	*/
+	fromIpld: function (ipldHash) {
+		return this.encode('ipld-ns', ipldHash);
+	},
+
+	/**
 	* Encode a Skylink into a content hash
 	* @param {string} skylink string containing a Skylink
 	* @return {string} the resulting content hash
